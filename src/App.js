@@ -41,7 +41,7 @@ const app = () => {
               key={pers.age}
               age={pers.age}
               name={pers.name}
-              click={switchNameHandler.bind(this, pers.name)}
+              click={() => switchNameHandler(pers.name)}
             >
               {pers.hobbies}
             </Person>
