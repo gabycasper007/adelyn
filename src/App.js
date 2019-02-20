@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { Component } from "react";
 import "./App.css";
 import Person from "./Person/Person";
 
-const app = () => {
-  const [initialState, setNewState] = useState({
+class App extends Component {
+  state = {
     persons: [
       {
         age: 5,
@@ -20,45 +20,71 @@ const app = () => {
       }
     ],
     somedata: "THE DATA"
-  });
-  const switchNameHandler = pName => {
-    const persons = initialState.persons.map(pers => {
+  };
+  switchNameHandler = pName => {
+    const persons = this.state.persons.map(pers => {
       if (pers.name === pName) pers.age++;
       return pers;
     });
-    setNewState({ persons, ...initialState });
+    this.setState({ persons, ...this.state });
   };
-  return (
-    <div className="App">
-      <h1>Hi, I'm a React app</h1>
-      <button className="btn btn-default" onClick={switchNameHandler}>
-        Switch Name
-      </button>
-      {initialState.persons.map(pers => {
-        if (pers.hobbies) {
-          return (
-            <Person
-              key={pers.age}
-              age={pers.age}
-              name={pers.name}
-              click={() => switchNameHandler(pers.name)}
-            >
-              {pers.hobbies}
-            </Person>
-          );
-        } else {
-          return (
-            <Person
-              key={pers.age}
-              age={pers.age}
-              name={pers.name}
-              click={switchNameHandler.bind(this, pers.name)}
-            />
-          );
-        }
-      })}
-    </div>
-  );
-};
+  nameChangedHandler = event => {
+    const val = event.target.value;
+    console.log(val);
 
-export default app;
+    this.setState({
+      persons: [
+        {
+          age: 5,
+          name: "Mya"
+        },
+        {
+          age: 21,
+          name: val,
+          hobbies: "React"
+        },
+        {
+          age: 15,
+          name: "Alice"
+        }
+      ],
+      ...this.state
+    });
+  };
+  render() {
+    return (
+      <div className="App">
+        <h1>Hi, I'm a React app</h1>
+        <button className="btn btn-default" onClick={this.switchNameHandler}>
+          Switch Name
+        </button>
+        {this.state.persons.map(pers => {
+          if (pers.hobbies) {
+            return (
+              <Person
+                key={pers.age}
+                age={pers.age}
+                name={pers.name}
+                click={() => this.switchNameHandler(pers.name)}
+                changeName={this.nameChangedHandler}
+              >
+                {pers.hobbies}
+              </Person>
+            );
+          } else {
+            return (
+              <Person
+                key={pers.age}
+                age={pers.age}
+                name={pers.name}
+                click={this.switchNameHandler.bind(this, pers.name)}
+                changeName={this.nameChangedHandler}
+              />
+            );
+          }
+        })}
+      </div>
+    );
+  }
+}
+export default App;
