@@ -47,8 +47,7 @@ class App extends Component {
           age: 15,
           name: "Alice"
         }
-      ],
-      ...this.state
+      ]
     });
   };
   render() {
