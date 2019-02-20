@@ -21,9 +21,9 @@ const app = () => {
     ],
     somedata: "THE DATA"
   });
-  const switchNameHandler = () => {
+  const switchNameHandler = pName => {
     const persons = initialState.persons.map(pers => {
-      if (pers.name === "Jane") pers.age++;
+      if (pers.name === pName) pers.age++;
       return pers;
     });
     setNewState({ persons, ...initialState });
@@ -37,12 +37,24 @@ const app = () => {
       {initialState.persons.map(pers => {
         if (pers.hobbies) {
           return (
-            <Person key={pers.age} age={pers.age} name={pers.name}>
+            <Person
+              key={pers.age}
+              age={pers.age}
+              name={pers.name}
+              click={switchNameHandler.bind(this, pers.name)}
+            >
               {pers.hobbies}
             </Person>
           );
         } else {
-          return <Person key={pers.age} age={pers.age} name={pers.name} />;
+          return (
+            <Person
+              key={pers.age}
+              age={pers.age}
+              name={pers.name}
+              click={switchNameHandler.bind(this, pers.name)}
+            />
+          );
         }
       })}
     </div>
