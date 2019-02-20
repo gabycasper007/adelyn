@@ -3,7 +3,7 @@ import "./App.css";
 import Person from "./Person/Person";
 
 const app = () => {
-  const [personsState, setPersonsState] = useState({
+  const [initialState, setNewState] = useState({
     persons: [
       {
         age: 5,
@@ -22,11 +22,11 @@ const app = () => {
     somedata: "THE DATA"
   });
   const switchNameHandler = () => {
-    const persons = personsState.persons.map(pers => {
+    const persons = initialState.persons.map(pers => {
       if (pers.name === "Jane") pers.age++;
       return pers;
     });
-    setPersonsState({ persons, ...personsState });
+    setNewState({ persons, ...initialState });
   };
   return (
     <div className="App">
@@ -34,7 +34,7 @@ const app = () => {
       <button className="btn btn-default" onClick={switchNameHandler}>
         Switch Name
       </button>
-      {personsState.persons.map(pers => {
+      {initialState.persons.map(pers => {
         if (pers.hobbies) {
           return (
             <Person key={pers.age} age={pers.age} name={pers.name}>
