@@ -44,6 +44,24 @@ class App extends Component {
       border: "1px solid green",
       color: "white"
     };
+    let persons = null;
+
+    if (this.state.showPersons) {
+      persons = this.state.persons.map((pers, index) => {
+        return (
+          <Person
+            key={pers.age}
+            age={pers.age}
+            name={pers.name}
+            click={() => this.switchNameHandler(pers.name)}
+            changeName={this.nameChangedHandler.bind(this, index)}
+          >
+            {pers.hobbies}
+          </Person>
+        );
+      });
+    }
+
     return (
       <div className="App">
         <h1>Hi, I'm a React app</h1>
@@ -54,21 +72,7 @@ class App extends Component {
         >
           Toggle Persons
         </button>
-        {this.state.showPersons
-          ? this.state.persons.map((pers, index) => {
-              return (
-                <Person
-                  key={pers.age}
-                  age={pers.age}
-                  name={pers.name}
-                  click={() => this.switchNameHandler(pers.name)}
-                  changeName={this.nameChangedHandler.bind(this, index)}
-                >
-                  {pers.hobbies}
-                </Person>
-              );
-            })
-          : null}
+        {persons}
       </div>
     );
   }
