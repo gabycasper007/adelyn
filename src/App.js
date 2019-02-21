@@ -1,3 +1,4 @@
+import Radium from "radium";
 import React, { Component } from "react";
 import "./App.css";
 import Person from "./Person/Person";
@@ -52,12 +53,20 @@ class App extends Component {
       backgroundColor: "green",
       padding: "10px",
       border: "1px solid green",
-      color: "white"
+      color: "white",
+      ":hover": {
+        backgroundColor: "lightgreen",
+        color: "black"
+      }
     };
     let persons = null;
 
     if (this.state.showPersons) {
       style.backgroundColor = "red";
+      style[":hover"] = {
+        backgroundColor: "darkred",
+        color: "white"
+      };
       persons = this.state.persons.map((pers, index) => {
         return (
           <Person
@@ -89,4 +98,4 @@ class App extends Component {
     );
   }
 }
-export default App;
+export default Radium(App);
