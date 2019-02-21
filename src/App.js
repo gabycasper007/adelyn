@@ -48,6 +48,15 @@ class App extends Component {
     persons.splice(index, 1);
     this.setState({ persons });
   };
+
+  nameChangedHandler = (index, event) => {
+    const persons = this.state.persons.map(pers => {
+      const newPers = { ...pers };
+      if (pers.id === index) newPers.name = event.target.value;
+      return newPers;
+    });
+    this.setState({ persons });
+  };
   render() {
     const style = {
       backgroundColor: "green",
@@ -56,6 +65,10 @@ class App extends Component {
       color: "white",
       ":hover": {
         backgroundColor: "lightgreen",
+        color: "black"
+      },
+      "@media (max-width:450px)": {
+        backgroundColor: "yellow",
         color: "black"
       }
     };
