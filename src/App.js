@@ -19,7 +19,8 @@ class App extends Component {
         name: "Alice"
       }
     ],
-    somedata: "THE DATA"
+    somedata: "THE DATA",
+    showPersons: false
   };
   switchNameHandler = pName => {
     const persons = this.state.persons.map(pers => {
@@ -50,6 +51,9 @@ class App extends Component {
       ]
     });
   };
+  togglePersonsHandler = () => {
+    this.setState({ showPersons: !this.state.showPersons });
+  };
   render() {
     const style = {
       backgroundColor: "blue",
@@ -63,35 +67,37 @@ class App extends Component {
         <button
           style={style}
           className="btn btn-default"
-          onClick={this.switchNameHandler}
+          onClick={this.togglePersonsHandler}
         >
-          Switch Name
+          Toggle Persons
         </button>
-        {this.state.persons.map(pers => {
-          if (pers.hobbies) {
-            return (
-              <Person
-                key={pers.age}
-                age={pers.age}
-                name={pers.name}
-                click={() => this.switchNameHandler(pers.name)}
-                changeName={this.nameChangedHandler}
-              >
-                {pers.hobbies}
-              </Person>
-            );
-          } else {
-            return (
-              <Person
-                key={pers.age}
-                age={pers.age}
-                name={pers.name}
-                click={this.switchNameHandler.bind(this, pers.name)}
-                changeName={this.nameChangedHandler}
-              />
-            );
-          }
-        })}
+        {this.state.showPersons
+          ? this.state.persons.map(pers => {
+              if (pers.hobbies) {
+                return (
+                  <Person
+                    key={pers.age}
+                    age={pers.age}
+                    name={pers.name}
+                    click={() => this.switchNameHandler(pers.name)}
+                    changeName={this.nameChangedHandler}
+                  >
+                    {pers.hobbies}
+                  </Person>
+                );
+              } else {
+                return (
+                  <Person
+                    key={pers.age}
+                    age={pers.age}
+                    name={pers.name}
+                    click={this.switchNameHandler.bind(this, pers.name)}
+                    changeName={this.nameChangedHandler}
+                  />
+                );
+              }
+            })
+          : null}
       </div>
     );
   }
