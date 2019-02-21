@@ -1,6 +1,5 @@
 .Person {
   border: 1px solid #999;
-  box-shadow: inset hoff voff blur #000;
   margin: 50px;
   text-align: center;
 }
