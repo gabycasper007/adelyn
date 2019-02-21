@@ -6,18 +6,18 @@ class App extends Component {
   state = {
     persons: [
       {
-        id: 0,
+        id: "s1",
         age: 5,
         name: "Mya"
       },
       {
-        id: 1,
+        id: "d6",
         age: 21,
         name: "Jane",
         hobbies: "React"
       },
       {
-        id: 2,
+        id: "r8",
         age: 15,
         name: "Alice"
       }
@@ -33,8 +33,10 @@ class App extends Component {
     this.setState({ persons, ...this.state });
   };
   nameChangedHandler = (index, event) => {
-    const persons = [...this.state.persons];
-    persons[index].name = event.target.value;
+    const persons = this.state.persons.map(pers => {
+      if (pers.id === index) pers.name = event.target.value;
+      return pers;
+    });
     this.setState({ persons });
   };
   togglePersonsHandler = () => {
