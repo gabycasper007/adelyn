@@ -9,6 +9,7 @@ const person = props => {
         {props.children ? ` and I love ${props.children}.` : "."}
       </p>
       <input type="text" onChange={props.changeName} value={props.name} />
+      <button onClick={props.delete}>X</button>
     </div>
   );
 };

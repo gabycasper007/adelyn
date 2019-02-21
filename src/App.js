@@ -22,7 +22,7 @@ class App extends Component {
     somedata: "THE DATA",
     showPersons: false
   };
-  switchNameHandler = pName => {
+  incrementAgeHandler = pName => {
     const persons = this.state.persons.map(pers => {
       if (pers.name === pName) pers.age++;
       return pers;
@@ -36,6 +36,11 @@ class App extends Component {
   };
   togglePersonsHandler = () => {
     this.setState({ showPersons: !this.state.showPersons });
+  };
+  deleteHandler = index => {
+    const persons = this.state.persons;
+    delete persons[index];
+    this.setState({ persons });
   };
   render() {
     const style = {
@@ -53,8 +58,9 @@ class App extends Component {
             key={pers.age}
             age={pers.age}
             name={pers.name}
-            click={() => this.switchNameHandler(pers.name)}
+            click={() => this.incrementAgeHandler(pers.name)}
             changeName={this.nameChangedHandler.bind(this, index)}
+            delete={this.deleteHandler.bind(this, index)}
           >
             {pers.hobbies}
           </Person>
