@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+import Cockpit from "../components/Cockpit/Cockpit";
+import Persons from "../components/Persons/Persons";
 import "./App.css";
-import Person from "./Person/Person";
 
 class App extends Component {
   state = {
@@ -48,7 +49,7 @@ class App extends Component {
     this.setState({ persons });
   };
 
-  nameChangedHandler = (index, event) => {
+  nameChangedHandler = (event, index) => {
     const persons = this.state.persons.map(pers => {
       const newPers = { ...pers };
       if (pers.id === index) newPers.name = event.target.value;
@@ -57,42 +58,21 @@ class App extends Component {
     this.setState({ persons });
   };
   render() {
-    const style = {
-      backgroundColor: "green",
-      padding: "10px",
-      border: "1px solid green",
-      color: "white"
-    };
     let persons = null;
 
     if (this.state.showPersons) {
-      style.backgroundColor = "red";
-      persons = this.state.persons.map((pers, index) => {
-        return (
-          <Person
-            key={pers.age}
-            age={pers.age}
-            name={pers.name}
-            click={() => this.incrementAgeHandler(pers.name)}
-            changeName={this.nameChangedHandler.bind(this, pers.id)}
-            delete={this.deleteHandler.bind(this, index)}
-          >
-            {pers.hobbies}
-          </Person>
-        );
-      });
+      persons = (
+        <Persons
+          persons={this.state.persons}
+          click={this.incrementAgeHandler}
+          changeName={this.nameChangedHandler}
+          delete={this.deleteHandler}
+        />
+      );
     }
-
     return (
       <div className="App">
-        <h1>Hi, I'm a React app</h1>
-        <button
-          style={style}
-          className="btn btn-default"
-          onClick={this.togglePersonsHandler}
-        >
-          Toggle Persons
-        </button>
+        <Cockpit clicked={this.togglePersonsHandler} />
         {persons}
       </div>
     );
