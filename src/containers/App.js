@@ -26,6 +26,21 @@ class App extends Component {
     somedata: "THE DATA",
     showPersons: false
   };
+
+  constructor(props) {
+    super(props);
+    console.log("App Contructor");
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    console.log("App getDerivedStateFromProps", props);
+    return state;
+  }
+
+  componentDidMount() {
+    console.log("App componentDidMount");
+  }
+
   incrementAgeHandler = pName => {
     const persons = this.state.persons.map(pers => {
       if (pers.name === pName) pers.age++;
@@ -33,6 +48,7 @@ class App extends Component {
     });
     this.setState({ persons, ...this.state });
   };
+
   nameChangedHandler = (index, event) => {
     const persons = this.state.persons.map(pers => {
       if (pers.id === index) pers.name = event.target.value;
@@ -40,9 +56,11 @@ class App extends Component {
     });
     this.setState({ persons });
   };
+
   togglePersonsHandler = () => {
     this.setState({ showPersons: !this.state.showPersons });
   };
+
   deleteHandler = index => {
     const persons = [...this.state.persons];
     persons.splice(index, 1);
@@ -57,7 +75,10 @@ class App extends Component {
     });
     this.setState({ persons });
   };
+
   render() {
+    console.log("App render");
+
     let persons = null;
 
     if (this.state.showPersons) {
@@ -70,6 +91,7 @@ class App extends Component {
         />
       );
     }
+
     return (
       <div className="App">
         <Cockpit clicked={this.togglePersonsHandler} title={this.props.title} />
@@ -78,4 +100,5 @@ class App extends Component {
     );
   }
 }
+
 export default App;
