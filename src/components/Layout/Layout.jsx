@@ -1,8 +1,10 @@
 import React from "react";
+import classes from "./Layout.module.css";
+
 const layout = props => (
   <>
     <div>Toolbar, sidebar, backdrop</div>
-    <main>{props.children}</main>
+    <main className={classes.Content}>{props.children}</main>
   </>
 );
 export default layout;
