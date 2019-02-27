@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "../../UI/Button/Button";
 
 const orderSummary = props => (
   <>
@@ -13,6 +14,12 @@ const orderSummary = props => (
       ))}
     </ul>
     <p>Continue to checkout?</p>
+    <Button type="Danger" clicked={props.cancel}>
+      CANCEL
+    </Button>
+    <Button type="Success" clicked={props.continue}>
+      CONTINUE
+    </Button>
   </>
 );
 

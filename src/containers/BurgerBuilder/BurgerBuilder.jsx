@@ -53,11 +53,28 @@ class BurgerBuilder extends Component {
     });
   };
 
+  cancelOrderHandler = () => {
+    this.setState({
+      purchasing: false
+    });
+  };
+
+  continueOrderHandler = () => {
+    alert("Continued");
+  };
+
   render() {
     return (
       <>
-        <Modal show={this.state.purchasing}>
-          <OrderSummary ingredients={this.state.ingredients} />
+        <Modal
+          show={this.state.purchasing}
+          hideBackdrop={this.cancelOrderHandler}
+        >
+          <OrderSummary
+            ingredients={this.state.ingredients}
+            cancel={this.cancelOrderHandler}
+            continue={this.continueOrderHandler}
+          />
         </Modal>
         <Burger ingredients={this.state.ingredients} />
         <BuildControls
