@@ -5,19 +5,21 @@ import classes from "./Layout.module.css";
 
 class Layout extends Component {
   state = {
-    showSidedrawer: true
+    showSidedrawer: false
   };
-  sideDrawerClosedHandler = () => {
-    this.setState({ showSidedrawer: false });
+  toggleSidedrawerHandler = () => {
+    this.setState(prevState => {
+      return { showSidedrawer: !prevState.showSidedrawer };
+    });
   };
   render() {
     return (
       <>
         <div>
-          <Toolbar />
+          <Toolbar showMenu={this.toggleSidedrawerHandler} />
           <SideDrawer
             open={this.state.showSidedrawer}
-            hideBackdrop={this.sideDrawerClosedHandler}
+            hideBackdrop={this.toggleSidedrawerHandler}
           />
         </div>
         <main className={classes.Content}>{this.props.children}</main>
