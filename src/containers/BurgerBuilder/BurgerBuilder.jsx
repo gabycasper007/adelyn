@@ -29,7 +29,9 @@ class BurgerBuilder extends Component {
         ...this.state.ingredients,
         [type]: this.state.ingredients[type] + 1
       },
-      totalPrice: this.state.totalPrice + INGREDIENT_PRICES[type]
+      totalPrice: this.correctDecimals(
+        +this.state.totalPrice + INGREDIENT_PRICES[type]
+      )
     });
   };
 
@@ -42,9 +44,13 @@ class BurgerBuilder extends Component {
           : 0
       },
       totalPrice: this.state.ingredients[type]
-        ? this.state.totalPrice - INGREDIENT_PRICES[type]
+        ? this.correctDecimals(+this.state.totalPrice - INGREDIENT_PRICES[type])
         : this.state.totalPrice
     });
+  };
+
+  correctDecimals = price => {
+    return price.toFixed(2);
   };
 
   purchaseHandler = () => {
@@ -74,6 +80,7 @@ class BurgerBuilder extends Component {
             ingredients={this.state.ingredients}
             cancel={this.cancelOrderHandler}
             continue={this.continueOrderHandler}
+            totalPrice={this.state.totalPrice}
           />
         </Modal>
         <Burger ingredients={this.state.ingredients} />

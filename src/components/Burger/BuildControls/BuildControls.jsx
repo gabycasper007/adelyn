@@ -10,7 +10,7 @@ const buildControls = props => {
   return (
     <div className={classes.BuildControls}>
       <p>
-        Current price: <strong>{props.price.toFixed(2)}</strong>
+        Current price: <strong>{props.price}</strong>
       </p>
       {Object.keys(props.ingredients).map(ingredient => {
         const ingr = ingredient.charAt(0).toUpperCase() + ingredient.slice(1);
