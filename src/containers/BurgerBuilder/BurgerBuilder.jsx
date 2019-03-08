@@ -4,6 +4,7 @@ import BuildControls from "../../components/Burger/BuildControls/BuildControls";
 import Burger from "../../components/Burger/Burger";
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import Modal from "../../components/UI/Modal/Modal";
+import Spinner from "../../components/UI/Spinner/Spinner";
 
 const INGREDIENT_PRICES = {
   salad: 0.5,
@@ -21,7 +22,8 @@ class BurgerBuilder extends Component {
       meat: 0
     },
     totalPrice: 4,
-    purchasing: false
+    purchasing: false,
+    loading: false
   };
 
   addIngredientHandler = type => {
@@ -67,30 +69,39 @@ class BurgerBuilder extends Component {
   };
 
   continueOrderHandler = () => {
+    this.setState({ loading: true });
     axios
       .post("/orders.json", this.state.ingredients)
       .then(response => {
-        if (response.status === 200) {
-        }
+        this.setState({ loading: false, purchasing: false });
+        // if (response.status === 200) {
+        // }
       })
       .catch(error => {
+        this.setState({ loading: false, purchasing: false });
         console.log(error);
       });
   };
 
   render() {
+    let orderSummary = (
+      <OrderSummary
+        ingredients={this.state.ingredients}
+        cancel={this.cancelOrderHandler}
+        continue={this.continueOrderHandler}
+        totalPrice={this.state.totalPrice}
+      />
+    );
+    if (this.state.loading) {
+      orderSummary = <Spinner />;
+    }
     return (
       <>
         <Modal
           show={this.state.purchasing}
           hideBackdrop={this.cancelOrderHandler}
         >
-          <OrderSummary
-            ingredients={this.state.ingredients}
-            cancel={this.cancelOrderHandler}
-            continue={this.continueOrderHandler}
-            totalPrice={this.state.totalPrice}
-          />
+          {orderSummary}
         </Modal>
         <Burger ingredients={this.state.ingredients} />
         <BuildControls
