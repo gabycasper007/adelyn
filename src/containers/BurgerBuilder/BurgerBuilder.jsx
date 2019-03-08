@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "../../axios-order";
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
 import Burger from "../../components/Burger/Burger";
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
@@ -66,7 +67,15 @@ class BurgerBuilder extends Component {
   };
 
   continueOrderHandler = () => {
-    alert("Continued");
+    axios
+      .post("/orders.json", this.state.ingredients)
+      .then(response => {
+        if (response.status === 200) {
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   render() {
