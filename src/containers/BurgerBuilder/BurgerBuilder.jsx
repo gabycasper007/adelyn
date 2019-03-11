@@ -16,16 +16,24 @@ const INGREDIENT_PRICES = {
 
 class BurgerBuilder extends Component {
   state = {
-    ingredients: {
-      salad: 0,
-      bacon: 0,
-      cheese: 0,
-      meat: 0
-    },
+    ingredients: null,
     totalPrice: 4,
     purchasing: false,
-    loading: false
+    loading: false,
+    error: false
   };
+
+  componentDidMount() {
+    axios
+      .get("/ingredients.json")
+      .then(response => {
+        this.setState({ ingredients: response.data });
+      })
+      .catch(error => {
+        console.log(error);
+        this.setState({ error: true });
+      });
+  }
 
   addIngredientHandler = type => {
     this.setState({
@@ -75,8 +83,6 @@ class BurgerBuilder extends Component {
       .post("/orders.json", this.state.ingredients)
       .then(response => {
         this.setState({ loading: false, purchasing: false });
-        // if (response.status === 200) {
-        // }
       })
       .catch(error => {
         this.setState({ loading: false, purchasing: false });
@@ -85,14 +91,36 @@ class BurgerBuilder extends Component {
   };
 
   render() {
-    let orderSummary = (
-      <OrderSummary
-        ingredients={this.state.ingredients}
-        cancel={this.cancelOrderHandler}
-        continue={this.continueOrderHandler}
-        totalPrice={this.state.totalPrice}
-      />
-    );
+    let orderSummary = null,
+      burger = this.state.error ? (
+        <p>Ingredients can't be loaded</p>
+      ) : (
+        <Spinner />
+      );
+
+    if (this.state.ingredients) {
+      burger = (
+        <>
+          <Burger ingredients={this.state.ingredients} />
+          <BuildControls
+            ingredients={this.state.ingredients}
+            add={this.addIngredientHandler}
+            remove={this.removeIngredientHandler}
+            price={this.state.totalPrice}
+            ordered={this.purchaseHandler}
+          />
+        </>
+      );
+
+      orderSummary = (
+        <OrderSummary
+          ingredients={this.state.ingredients}
+          cancel={this.cancelOrderHandler}
+          continue={this.continueOrderHandler}
+          totalPrice={this.state.totalPrice}
+        />
+      );
+    }
     if (this.state.loading) {
       orderSummary = <Spinner />;
     }
@@ -104,14 +132,7 @@ class BurgerBuilder extends Component {
         >
           {orderSummary}
         </Modal>
-        <Burger ingredients={this.state.ingredients} />
-        <BuildControls
-          ingredients={this.state.ingredients}
-          add={this.addIngredientHandler}
-          remove={this.removeIngredientHandler}
-          price={this.state.totalPrice}
-          ordered={this.purchaseHandler}
-        />
+        {burger}
       </>
     );
   }
